@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+@theme {
+  --color-crimson: #e11d2e;
+  --color-crimson-dark: #b3121f;
+  --color-royal: #2445e6;
+  --color-royal-light: #eef1ff;
+  --color-navy: #0b1437;
+  --color-navy-2: #14205a;
+  --color-gold: #ffc531;
+  --color-cream: #fcfaf6;
+  --color-ink: #10142b;
+  --color-muted: #5d6380;
+  --color-line: #ebe7df;
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-heading);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-spin-slow: spin 30s linear infinite;
+  --animate-marquee: marquee 50s linear infinite;
+  --animate-marquee-rev: marquee-rev 50s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes marquee-rev {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /* subtle dot grid behind all light sections (dark sections use .dot-grid) */
+  background: radial-gradient(rgb(11 20 55 / 0.09) 1px, transparent 1px) 0 0 / 22px 22px, var(--color-cream);
+  color: var(--color-ink);
+  /* decorative flyers drift near the edges; never let them cause sideways scrolling */
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-navy);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, var(--color-crimson), #ff6a3d 45%, var(--color-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-light {
+  background: linear-gradient(100deg, var(--color-gold), #ffe08a 50%, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dot-grid {
+  background-image: radial-gradient(rgb(255 255 255 / 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.dot-grid-dark {
+  background-image: radial-gradient(rgb(11 20 55 / 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Hero slider */
+.kenburns {
+  animation: kenburns 9s ease-out both;
+}
+@keyframes kenburns {
+  from { transform: scale(1.14); }
+  to { transform: scale(1); }
+}
+.slide-progress {
+  animation: slide-progress linear both;
+  transform-origin: left;
+}
+@keyframes slide-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.paused .slide-progress {
+  animation-play-state: paused;
+}
+
+.fade-up {
+  animation: fade-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Decorative flyers (components/decor/Flying.tsx) */
+.decor-flap {
+  transform-origin: 32px 24px;
+  animation: decor-flap 0.35s ease-in-out infinite alternate;
+}
+@keyframes decor-flap {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0.2); }
+}
+.decor-wander {
+  animation: decor-wander-a 14s ease-in-out infinite;
+}
+/* Four flight paths so neighbouring butterflies don't all drift the same way. */
+.decor-path-1 { animation-name: decor-wander-b; }
+.decor-path-2 { animation-name: decor-wander-c; }
+.decor-path-3 { animation-name: decor-wander-d; }
+@keyframes decor-wander-a { /* loop out to the right */
+  0%, 100% { transform: translate(0, 0) rotate(-6deg); }
+  20% { transform: translate(70px, -45px) rotate(12deg); }
+  40% { transform: translate(130px, 5px) rotate(-8deg); }
+  60% { transform: translate(80px, 55px) rotate(10deg); }
+  80% { transform: translate(20px, 25px) rotate(-12deg); }
+}
+@keyframes decor-wander-b { /* loop out to the left */
+  0%, 100% { transform: translate(0, 0) rotate(6deg); }
+  20% { transform: translate(-70px, -40px) rotate(-12deg); }
+  40% { transform: translate(-130px, 10px) rotate(8deg); }
+  60% { transform: translate(-80px, 50px) rotate(-10deg); }
+  80% { transform: translate(-20px, 20px) rotate(12deg); }
+}
+@keyframes decor-wander-c { /* figure-eight around the start point */
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(55px, -60px) rotate(14deg); }
+  50% { transform: translate(0, -20px) rotate(-6deg); }
+  75% { transform: translate(-55px, 40px) rotate(-14deg); }
+}
+@keyframes decor-wander-d { /* drift up-left, then sweep down-right */
+  0%, 100% { transform: translate(0, 0) rotate(4deg); }
+  30% { transform: translate(-90px, -55px) rotate(-14deg); }
+  55% { transform: translate(-30px, -80px) rotate(8deg); }
+  80% { transform: translate(60px, 30px) rotate(12deg); }
+}
+.decor-fly-across {
+  animation: decor-fly-across 26s linear infinite;
+}
+@keyframes decor-fly-across {
+  0% { transform: translate(-80px, 0); }
+  25% { transform: translate(25vw, -18px); }
+  50% { transform: translate(50vw, 8px); }
+  75% { transform: translate(75vw, -12px); }
+  100% { transform: translate(calc(100vw + 80px), 4px); }
+}
+.decor-bird-flap {
+  transform-origin: 20px 11px;
+  transform-box: view-box;
+  animation: decor-bird-flap 0.55s ease-in-out infinite alternate;
+}
+@keyframes decor-bird-flap {
+  from { transform: scaleY(1); }
+  to { transform: scaleY(-0.35); }
+}
+.decor-plane {
+  animation: decor-plane 18s ease-in-out infinite;
+}
+@keyframes decor-plane {
+  0% { transform: translate(-180px, 20px) rotate(6deg); opacity: 0; }
+  8% { opacity: 1; }
+  35% { transform: translate(35vw, -10px) rotate(-6deg); }
+  65% { transform: translate(65vw, 18px) rotate(5deg); }
+  92% { opacity: 1; }
+  100% { transform: translate(calc(100vw + 40px), -6px) rotate(-4deg); opacity: 0; }
+}
+.decor-bob {
+  animation: decor-bob 7s ease-in-out infinite;
+}
+@keyframes decor-bob {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-18px) rotate(8deg); }
+}
+
+/* Scroll reveal: content is visible by default; the `js` class on <html> enables the animation. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--delay, 0ms);
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .decor-flap, .decor-wander, .decor-bird-flap, .decor-bob { animation: none; }
+  .decor-fly-across, .decor-plane { display: none; }
+  .fade-up, .kenburns,
+  .animate-float, .animate-spin-slow, .animate-marquee, .animate-marquee-rev { animation: none; }
+}
