@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
+import ContentProtection from "@/components/ContentProtection";
 import Footer from "@/components/Footer";
 import { school } from "@/content/site";
 import "./globals.css";
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ContentProtection />
       </body>
     </html>
   );

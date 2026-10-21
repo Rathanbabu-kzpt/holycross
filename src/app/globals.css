@@ -213,3 +213,41 @@ body {
   .fade-up, .kenburns,
   .animate-float, .animate-spin-slow, .animate-marquee, .animate-marquee-rev { animation: none; }
 }
+
+/* Image protection: no dragging, no long-press "Save image" (iOS), no selection, and images are not
+   the click target, so the browser never offers "Save image as / Open image in new tab". */
+img,
+svg,
+picture {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}
+
+/* While developer tools are detected, photos are blurred out. */
+.devtools-open img {
+  filter: blur(28px) grayscale(1);
+}
+
+/* iOS Safari: no long-press preview/save sheet on links that contain photos. */
+a:has(img) {
+  -webkit-touch-callout: none;
+}
+
+/* Printing / "Save as PDF" shows a notice instead of the page. */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  body::after {
+    content: "Printing of this website is disabled.";
+    visibility: visible;
+    position: fixed;
+    inset: 40% 10% auto;
+    text-align: center;
+    font: 600 18px/1.5 sans-serif;
+    color: #0b1437;
+  }
+}
